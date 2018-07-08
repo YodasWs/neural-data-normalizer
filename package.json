@@ -1,18 +1,14 @@
 {
-  "name": "neural-data-normalizer",
-  "version": "1.0.0",
-  "description": "Data to bits normalization helpers script to use with neural network.",
-  "repository": "https://github.com/adadgio/neural-data-normalizer",
-  "main": "dist/index.js",
+  "name": "@yodasws/neural-data-normalizer",
+  "version": "2.0.0",
+  "description": "Data normalization script to use with neural networks",
+  "repository": "https://github.com/YodasWs/neural-data-normalizer",
+  "main": "index.js",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=7.0.0"
   },
   "scripts": {
-    "start": "npm run watch",
-    "test": "node dist/src/index.js",
-    "watch": "npm run build:live",
-    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts --env=dev",
-    "build": "tsc"
+    "test": "node test.js"
   },
   "keywords": [
     "node",
@@ -21,15 +17,11 @@
     "Synaptic.js",
     "Data manipulation"
   ],
-  "author": "Romain Bruckert",
+  "author": [
+    "Romain Bruckert",
+    "Sam Grundman <sam+github@yodas.ws"
+  ],
   "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^7.0.0",
-    "nodemon": "^1.11.0",
-    "ts-node": "^3.1.0",
-    "typescript": "^2.4.1",
-    "typescript-watcher": "^0.0.4"
-  },
   "dependencies": {
     "synaptic": "^1.1.1"
   }

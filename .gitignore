@@ -1,3 +1,7 @@
+#.gitignore
+*.swp
+*~
+
 *.log
 /typings
 /node_modules
