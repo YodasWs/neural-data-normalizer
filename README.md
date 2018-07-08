@@ -1,15 +1,27 @@
-# A simple data normalizer to be used with neural networks
+# neural-data-normalizer
 
-As my grandfather used to say (probably), **neural networks** are dumb. When they're born and when you need to train them just to see how all the magic works, its a pain in the... neck.
+A simple data normalizer to be used with neural networks.
 
-This is library **convert datasets of human data** into **arrays of bits** understandable for neurons (duh).
+As my grandfather used to say (probably), **neural networks** are dumb. When they're born and when you need to train them just to see how all the magic works, its a pain in the&hellip; neck.
+
+This library **converts datasets of human data** into **arrays of bits** understandable by neurons (duh).
 
 *Disclaimer*:
-This script was made when i tested the awesome [synaptic.js](https://github.com/cazala/synaptic) neural network library and might not suit all sorts of inputs. Its mainly meant to be able to quickly have test data from example given around the web for neural networks input.
+This script was made when I tested the awesome [synaptic.js](https://github.com/cazala/synaptic) neural network library and might not suit all sorts of inputs. It's mainly meant to be able to quickly take test data from examples given around the web for input into neural networks.
 
-## Cut the crap, show me how to
+## Install
 
-Consider this. I'm trying to plug a neural network into my Arduino Connected Garden and i've got the following data. I want my network to know when or when not to water my plants on its own (whatever the units are for now).
+```bash
+yarn add @yodasws/neural-data-normalizer
+```
+
+```bash
+npm install --save @yodasws/neural-data-normalizer
+```
+
+## Example
+
+Consider this. I'm trying to plug a neural network into my Arduino Connected Garden and I've got the following data. I want my network to know when or when not to water my plants on its own (whatever the units are for now).
 
 ```json
 { "soilhumidity": 500, "airtemp": 32, "airhum": 18, "water": true, "plants": ["tomatoes", "potatoes"] },
@@ -20,9 +32,9 @@ Consider this. I'm trying to plug a neural network into my Arduino Connected Gar
 { "soilhumidity": 1050, "airtemp": 56, "airhum": 26, "water": true, "plants": ["potatoes", "french fries"] },
 ```
 
-In the end, my output is "should i water the plants?": `water: true` and the rest are my inputs. Let's do this.
+In the end, my output is "should I water the plants?": `water: true` and the rest are my inputs. Let's do this.
 
-```ts
+```javascript
 const normalizer = new Normalizer(sampleData);
 
 // setting required options and normalize the data
@@ -43,10 +55,9 @@ console.log(inputs);
 console.log(outputs);
 ```
 
-There you should have all useful information to give to your network. You know the **number if inputs** and **outputs**, you get **~~binarized(?) dataset suitable for neural networks**, and event some *metadata* about your data.
+There you should have all useful the information to give to your network, like the **number of inputs** and **outputs**, you get **binarized dataset suitable for neural networks**, and even some *metadata*.
 
-```
-$ (console output)
+```javascript
 { soilhum: { type: 'number', min: 300, max: 1050, distinctValues: null },
   airtemp: { type: 'number', min: 8, max: 103, distinctValues: null },
   airhum: { type: 'number', min: 18, max: 90, distinctValues: null },
@@ -64,19 +75,23 @@ $ (console output)
   [ 1, 0, 0.111111, 1, 0, 0, 0 ],
   [ 1, 0.505263, 0.111111, 0, 1, 0, 1 ] ]
 
-[ [ 1 ], [ 1 ], [ 0 ], [ 1 ], [ 1 ], [ 1 ] ]
+[ [ 1 ],
+  [ 1 ],
+  [ 0 ],
+  [ 1 ],
+  [ 1 ],
+  [ 1 ] ]
 ```
 
-## Why metadata ?
+## Why metadata?
 
-Consider  a real example where you actually started to understand what are neural networks and start implementing it. You realize the biggest challenge is data formatting. When you **activate Alfred** with you data (i always call my network Alfred)
-you realize you also need to **normalize the new data input** as well.
+Consider a real example where you actually start to understand what neural networks are and start implementing one. Soon you realize the biggest challenge is data formatting. When you **activate the network** with you data you realize you also need to **normalize the new data input** as well.
 
-So you need to save metadata information that you got earlier (mins, maxes, ets) so that our data normalizer here converts the new inputs to the same scales! (this implies training data MUST contain min and maxes values at some point).
+So you need to save your metadata information from earlier so you can reuse it! This implies training data *MUST* contain min and max values at some point.
 
-Then on new unkown input you just have to recall the normalizer one thing: *metadata of known values* range.
+Then on new unknown input you just have to recall the normalizer with the metadata:
 
-```
+```javascript
 const normalizer = new Normalizer(newData);
 
 normalizer
@@ -84,6 +99,8 @@ normalizer
     .setOutputProperties(['water']);
 
 const input = normalizer.getBinaryInputDataset()[0];
-
-// and activate your neural network with data ! (see index.ts for an example using synaptic)
 ```
+
+And now you can activate your neural network!
+
+See also `test.js` for an example using [synaptic.js](https://github.com/cazala/synaptic).
